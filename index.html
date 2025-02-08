@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h2>Applying filter toImage </h2>
+  
+  <img id ='image' src = 'https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630'</img>
+  <div class ='button'>
+  <button onclick="filters('grayscale(100%)')">Black and White</button>
+  <button onclick="filters('blur(5px)')">Blur</button>
+  <button onclick="filters('sepia(100%)')">Sepia</button>
+<button onclick="filters('invert(100%)')">Invert</button>
+  <button onclick="filters('brightness(150%)')">Brightness</button>
+  <button onclick="filters('contrast(200%)')">Contrast</button>
+  <button onclick="filters('opacity(20%)')">Opacity</button>
+<button onclick="filters('saturate(10%)')">Saturate</button>
+  <button onclick="filters('drop-shadow(10px 10px 10px gray)')">Shadow</button>
+    <button onclick="filters('none')">Original</button>
+      <button id="down" onclick="downloadImage()">Download Image</button> 
+    <canvas id='canvas'>
+    </canvas>
+
+  </div>
+   <script>
+     
+let currentFilter = 'none';
+
+function filters(value) {
+  let img_element = document.getElementById("image");
+  img_element.style.filter = value;
+
+  currentFilter = value;
+}
+
+     function downloadImage(){
+
+  let img_element = document.getElementById("image");
+  let canvas = document.getElementById("canvas");
+       let ctx = canvas.getContext("2d");// create context for a 2d surface
+       let w = img_element.width;// width of the current image
+let h = img_element.height;// height of the current image
+          canvas.width = w;
+canvas.height = h;
+       
+       // copying the image and drawing(copy) in the canvas
+// create an object for the Image Class
+    
+
+let tempImg = new Image(); // create an object for the temp image
+       tempImg.crossOrigin = "anonymous";
+       
+       tempImg.src = img_element.src; // takes the src url of the image
+tempImg.onload = function() {
+  ctx.filter = currentFilter; // sets the current filter on the canvas
+  ctx.drawImage(tempImg, 0, 0, canvas.width, canvas.height);
+  let link = document.createElement("a");
+  link.download = "filter_image.jpg";
+  link.href = canvas.toDataURL("image/jpg");
+  link.click();
+  
+};
+       
+}
+</script>
+</body>
+ 
+</html>
